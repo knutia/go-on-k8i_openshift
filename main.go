@@ -47,5 +47,6 @@ func main() {
 
 	log.Print("The service is shutting down...")
 	srv.Shutdown(context.Background())
+	// comment
 	log.Print("Done")
 }
