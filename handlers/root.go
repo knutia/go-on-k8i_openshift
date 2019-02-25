@@ -9,5 +9,10 @@ import (
 // home is a simple HTTP handler function which writes a response.
 func root(w http.ResponseWriter, _ *http.Request) {
 	host := os.Getenv("HOSTNAME")
-	fmt.Fprint(w, "Hello! Your request was processed by "+host+".")
+
+	demoName := os.Getenv("NAME")
+	if demoName == "" {
+		demoName = "Demo"
+	}
+	fmt.Fprint(w, "Hello "+demoName+" ! Your request was processed by "+host+".")
 }
