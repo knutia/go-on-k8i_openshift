@@ -13,6 +13,14 @@ import (
 )
 
 func main() {
+	file, err := os.OpenFile("/home/info.log", os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0644)
+		if err != nil {
+			log.Fatal(err)
+		}
+		defer file.Close()
+
+		log.SetOutput(file)
+		
 	log.Printf(
 		"Starting the service...\ncommit: %s, build time: %s, release: %s",
 		version.Commit, version.BuildTime, version.Release,

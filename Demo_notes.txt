@@ -1,0 +1,53 @@
+
+
+clone:
+  cd C:\Projects\
+  git clone https://github.com/knutia/go-on-k8i_openshift.git
+
+build:
+  cd .\go-on-k8i_openshift
+  docker build -t knutia/go-on-k8i_openshift .
+  docker image prune -f
+
+run:
+  docker run -it --rm -p 80:8000 knutia/go-on-k8i_openshift
+  
+Show app:
+  curl http://localhost
+  start http://localhost
+
+puch to docker hub:
+  docker login
+  docker push knutia/go-on-k8i_openshift
+  
+  
+deploy to kubernetis:
+  kubectl apply -f demo.yaml
+  
+Make service:
+  kubectl expose deployment hello-world --type=NodePort --name=example-service
+  
+Proxy to acsess kubernetis:
+  kubectl proxy
+  
+Show app:
+  curl http://localhost:31081
+  start http://localhost:31081
+  start http://localhost:8001/api/v1/namespaces/default/services/example-service/proxy/
+  
+dashboard:  
+  kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/master/src/deploy/alternative/kubernetes-dashboard.yaml
+  
+Make new version:
+Change text in C:\Projects\go-on-k8i_openshift\handlers\root.go
+docker build -t knutia/go-on-k8i_openshift .
+docker image prune -f
+docker images
+docker tag <id> knutia/go-on-k8i_openshift:v?.0
+docker push knutia/go-on-k8i_openshift
+
+uppdate pod:
+kubectl set image deployment/hello-world hello-world=knutia/go-on-k8i_openshift:latest
+
+
+  
