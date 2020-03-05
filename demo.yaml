@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: hello-world
-          image: knutia/go-on-k8i_openshift:latest
+          image: knutia/go-on-k8i_openshift:v1.0
           ports:
             - containerPort: 8000
               protocol: TCP
