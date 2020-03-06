@@ -4,13 +4,21 @@ clone:
   cd C:\Projects\
   git clone https://github.com/knutia/go-on-k8i_openshift.git
 
-build:
+Run go
+   $Env:PORT = "8000" 
+   go run .\main.go
+   go build .\main.go
+   main.exe
+
+build docker:
   cd .\go-on-k8i_openshift
   docker build -t knutia/go-on-k8i_openshift .
   docker image prune -f
 
-run:
+run docker:
   docker run -it --rm -p 80:8000 knutia/go-on-k8i_openshift
+  Start-Process docker  -ArgumentList 'run -it --rm -p 80:8000 knutia/go-on-k8i_openshift:vlogfile'
+  start .\Stress_test.cmd http://localhost
   
 Show app:
   curl http://localhost
@@ -34,18 +42,28 @@ Show app:
   curl http://localhost:31081
   start http://localhost:31081
   start http://localhost:8001/api/v1/namespaces/default/services/example-service/proxy/
+
+Show loadbalanser:
+  start .\Stress_test.cmd http://192.168.2.190/hello
   
 dashboard:  
   kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.0-beta8/aio/deploy/recommended.yaml
   
   http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/.
-  
+
+
+
 Make new version:
 Change text in C:\Projects\go-on-k8i_openshift\handlers\root.go
+
 docker build -t knutia/go-on-k8i_openshift .
 docker image prune -f
 docker images
 docker tag <id> knutia/go-on-k8i_openshift:v?.0
+or
+docker build -t knutia/go-on-k8i_openshift:v?.0 .
+docker image prune -f
+
 docker push knutia/go-on-k8i_openshift
 
 uppdate pod:
@@ -54,6 +72,15 @@ kubectl set image deployment/hello-world hello-world=knutia/go-on-k8i_openshift:
 
 Scale the deployment
 kubectl scale --replicas=3 deployment/hello-world 
+
+timber.io:
+https://app.timber.io/kia/logs/console?start=2020-03-05T12%3A35%3A20.840Z&apps=34255&filters=kubernetes.container_name%3Ahello-world&view_type=console
+kubernetes.container_name:hello-world
+
+
+curl http://localhost/kill
+curl http://192.168.2.190/hello/kill
+
 
 
   
