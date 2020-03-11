@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/gorilla/mux"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
 // Router register necessary routes and returns an instance of a router.
@@ -25,5 +26,7 @@ func Router(buildTime, commit, release string) *mux.Router {
 	r.HandleFunc("/healthz", healthz)
 	r.HandleFunc("/readyz", readyz(isReady))
 	r.HandleFunc("/kill", kill)
+	r.Handle("/metrics", promhttp.Handler())
+	
 	return r
 }
