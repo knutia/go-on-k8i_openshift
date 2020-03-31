@@ -71,7 +71,7 @@ kubectl set image deployment/hello-world hello-world=knutia/go-on-k8i_openshift:
 
 
 Scale the deployment
-kubectl scale --replicas=3 deployment/hello-world 
+kubectl scale deployment hello-world --replicas=3
 
 timber.io:
 https://app.timber.io/kia/logs/console?start=2020-03-05T12%3A35%3A20.840Z&apps=34255&filters=kubernetes.container_name%3Ahello-world&view_type=console
