@@ -14,7 +14,7 @@ func root(w http.ResponseWriter, r *http.Request) {
 
 	demoName := os.Getenv("NAME")
 	if demoName == "" {
-		demoName = "Demo v3.0"
+		demoName = "Demo v4.0"
 	}
 	fmt.Fprint(w, "Hello "+demoName+" ! Your request was processed by "+host+".")
 }
